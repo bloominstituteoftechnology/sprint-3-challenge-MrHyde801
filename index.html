@@ -58,8 +58,67 @@
       // 🧠 Implement a `getAllReversed` method which returns the ints in reverse order
       // ❗ WARNING: except for `getAllReversed`, methods must respect the order of the integers
       // ❗ WARNING: note that except for push and pop, the methods don't change the `ints` property
+      constructor(...args) {
+        this.ints = args
+      }
 
-    }
+      getAll() {
+        console.log(this.ints)
+        return this.ints
+      }
+
+      getEvens() {
+        let evenArr = []
+        for(let i = 0; i < this.ints.length; i++){
+          if(this.ints[i] % 2 === 0) {
+            evenArr.push(this.ints[i])
+            console.log(evenArr)
+          }
+        }
+        return evenArr
+      }
+
+      getNegatives() {
+        let negArr = []
+        for(let i = 0; i < this.ints.length; i++){
+          if(this.ints[i] < 0) {
+            negArr.push(this.ints[i])
+          }
+        }
+        return negArr
+      }
+      
+      getAllSquared() {
+        let squareArr = [];
+        let squareNum
+        for(let i = 0; i < this.ints.length; i++){
+          squareArr.push(this.ints[i]**2); 
+        }
+        return squareArr
+      }
+
+      pop() {
+        let poppedArr = this.ints.pop()
+        return poppedArr
+      }
+
+      push(interger) {
+        this.ints.push(interger)
+        return this.ints
+      }
+
+      getEveryNth(numero) {
+        let letNthArray = []
+        for(let i = 0; i < this.ints.length; i += numero){
+        letNthArray.push(this.ints[i])
+        }
+        return letNthArray
+      }
+
+      getAllReversed() {
+      return this.ints.reverse()        
+      }
+  }
 
     // 👉 CHALLENGE 2 NerfGun
     class NerfGun {
@@ -76,8 +135,50 @@
       //      * When engaging the safety, return "Safety enabled!"
       //      * When disengaging the safety, return "Safety disabled!"
       // 🌟 HINT: instances need to keep track of their maximum capacity as well as their current capacity
+      constructor(totalAmmo) {
+        this.totalAmmo = totalAmmo;
+        this.safety = true;
+        this.currentAmmo = totalAmmo
+      }
+      shoot() {
+        // console.log(this.currentAmmo)
+        if(this.currentAmmo && this.safety === false) {
+          this.currentAmmo --;
+          return 'Bang!'
+        }
+        if(this.currentAmmo === 0 || this.safety) {
+          return 'Click!'
+        }
+        
+      }
+      reload(number) {
+        // console.log(this.currentAmmo, number)
+        if(number <= 0 || typeof number === 'string') {
+          return 'Error reloading!'
+        }
+        if(this.currentAmmo + number >= this.totalAmmo) {
+          this.currentAmmo = this.totalAmmo
+        } else {
+          this.currentAmmo += number
+        }
+        
+        return  `${this.currentAmmo} projectiles left!`
+
+      }
+      toggleSafety() {
+        if(this.safety === true) {
+          this.safety = false;
+          return 'Safety disabled!'
+      }
+        if(this.safety === false) {
+          this.safety = true;
+          return 'Safety enabled!'
+        }
+      }
 
     }
+
+
 
     // 👉 CHALLENGE 3 EBook
     class EBook {
@@ -95,6 +196,20 @@
       //    ebook.next() // returns null
       // 🌟 HINT: remember about the `slice` method which strings and arrays have
       // ❗ Feel free to implement `back`, although this is not required nor graded
+
+      constructor(book, char) {
+        this.book = book;
+        this.char = char;
+        this.position = 0;
+      }
+      next() {
+        // console.log(this.position, this.position+this.char)
+        let slicedBook = this.book.slice(this.position, this.char + this.position);
+        this.position += this.char
+        if(!slicedBook) {
+          return null
+        } else return slicedBook
+      }
 
     }
 
@@ -130,6 +245,49 @@
       //      console.log(list) // prints ["a"]
       // 👉 HINT: if you are not feeling confident with map and filter, solve the problem with for loops,
       //      and with the piece of mind of all tests passing, refactor to use map/filter
+
+      constructor(...ments) {
+        this.ants = []
+        for(let i = 0; i < ments.length; i++) {
+          this.ants.push({name: ments[i],health: 100})
+        }
+      }
+      
+      work() {
+        let workingMessage = 'No ants here. Did you work them to death?'
+        console.log(this.ants, this.ants.length)
+        this.ants = this.ants.map(ant => {
+          ant.health -= 20
+          return ant
+        })
+        
+        let newAnts = this.ants.filter(ant => ant.health > 0)
+        this.ants = newAnts;
+
+        if(this.ants.length !== 0) {
+          workingMessage = `${this.ants.length} ants starting work!`
+        }
+
+        return workingMessage
+        
+      }
+
+      feed(antName) {
+        let returnMessage = `${antName} not found!`
+        this.ants = this.ants.map(ant => {
+          if(ant.name === antName) {
+            ant.health += 15
+            returnMessage = 'Yum!'
+            return ant
+          } else return ant
+        })
+        
+        return returnMessage
+
+      }
+      
+
+
 
     }
 
