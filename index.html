@@ -254,21 +254,18 @@
       }
       
       work() {
-        let workingMessage = 'No ants here. Did you work them to death?'
-        console.log(this.ants, this.ants.length)
+        let originalLength = this.ants.length
+        if(this.ants.length === 0) {
+          return 'No ants here. Did you work them to death?'
+        }
         this.ants = this.ants.map(ant => {
           ant.health -= 20
           return ant
         })
         
-        let newAnts = this.ants.filter(ant => ant.health > 0)
-        this.ants = newAnts;
+        this.ants = this.ants.filter(ant => ant.health > 0)
 
-        if(this.ants.length !== 0) {
-          workingMessage = `${this.ants.length} ants starting work!`
-        }
-
-        return workingMessage
+        return `${originalLength} ants starting work!`
         
       }
 
@@ -286,8 +283,6 @@
 
       }
       
-
-
 
     }
 
